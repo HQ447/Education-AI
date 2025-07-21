@@ -49,7 +49,7 @@ EduAI is an AI-driven e-learning platform designed to provide affordable, person
 - Role-based access for:
   - Students
   - Instructors
-  - Admin
+  - Admin (Create Admin Account using secret)
 
 ---
 
@@ -81,3 +81,11 @@ npm run dev
 cd ../frontend
 npm run dev
 ```
+
+---
+
+## 🔐 DEMO Accounts
+
+Learner Account - hq16877@gmail.com - regNo$
+Admin Account route - /auth/admin-Login and /auth/inital-admin
+hamadqur447@gmail.com - regNo$
