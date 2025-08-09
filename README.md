@@ -1,3 +1,5 @@
+<img width="2480" height="3508" alt="472874184-6257eca5-1f0a-443e-bb10-239b89e1645e" src="https://github.com/user-attachments/assets/34f2eb31-7f81-4529-97d0-aae4cec4e31f" />
+
 # EduAI – AI-Powered E-Learning Marketplace 🎓🤖
 
 EduAI is an AI-driven e-learning platform designed to provide affordable, personalized, and accessible education to students and professionals across Pakistan. The system supports competitive exam preparation (MDCAT, CSS, NTS, etc.), skill-building courses, and instructor-led content delivery using modern web technologies.
