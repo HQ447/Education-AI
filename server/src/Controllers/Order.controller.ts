@@ -83,7 +83,9 @@ export const createCheckoutSession = CatchAsyncError(
         (c: { courseId: string }) => c.courseId.toString() === courseId
       );
       if (courseExistInUser) {
-        return next(new AppError("You have already purchased this course", 400));
+        return next(
+          new AppError("You have already purchased this course", 400)
+        );
       }
 
       const orderNumber = uuidv4().slice(0, 8);
@@ -125,7 +127,11 @@ export const createCheckoutSession = CatchAsyncError(
 );
 
 export const verifyPayment = CatchAsyncError(
-  async (req: Request, res: Response<VerifyPaymentResponse>, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response<VerifyPaymentResponse>,
+    next: NextFunction
+  ) => {
     try {
       const { session_id } = req.query;
 
@@ -138,13 +144,17 @@ export const verifyPayment = CatchAsyncError(
         return next(new AppError("Payment not completed", 400));
       }
 
-      const { userId, courseId } = session.metadata as { [key: string]: string };
+      const { userId, courseId } = session.metadata as {
+        [key: string]: string;
+      };
       const user = await UserModel.findById(userId).select("+courses");
       if (!user) {
         return next(new AppError("User not found", 404));
       }
 
-      if (!user.courses.some((c: { courseId: string }) => c.courseId === courseId)) {
+      if (
+        !user.courses.some((c: { courseId: string }) => c.courseId === courseId)
+      ) {
         user.courses.push({ courseId });
         await user.save();
       }
@@ -170,7 +180,11 @@ export const verifyPayment = CatchAsyncError(
 );
 
 export const getAllOrders = CatchAsyncError(
-  async (req: Request, res: Response<GetAllOrdersResponse>, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response<GetAllOrdersResponse>,
+    next: NextFunction
+  ) => {
     try {
       await getAllOrdersService(res);
     } catch (error: any) {
@@ -180,7 +194,11 @@ export const getAllOrders = CatchAsyncError(
 );
 
 export const sendStripePublishableKey = CatchAsyncError(
-  async (req: Request, res: Response<SendStripePublishableKeyResponse>, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response<SendStripePublishableKeyResponse>,
+    next: NextFunction
+  ) => {
     try {
       if (!process.env.STRIPE_PUBLISHABLE_KEY) {
         return next(new AppError("Stripe publishable key not configured", 500));
@@ -197,7 +215,11 @@ export const sendStripePublishableKey = CatchAsyncError(
 
 // New Function: Check Purchase
 export const checkPurchase = CatchAsyncError(
-  async (req: Request, res: Response<{ success: boolean; purchased: boolean }>, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response<{ success: boolean; purchased: boolean }>,
+    next: NextFunction
+  ) => {
     try {
       const { courseId } = req.query;
       if (!courseId || typeof courseId !== "string") {
@@ -209,7 +231,9 @@ export const checkPurchase = CatchAsyncError(
         return res.status(200).json({ success: true, purchased: false }); // Allow unauthenticated check
       }
 
-      const purchased = user.courses.some((c: { courseId: string }) => c.courseId === courseId);
+      const purchased = user.courses.some(
+        (c: { courseId: string }) => c.courseId === courseId
+      );
       res.status(200).json({ success: true, purchased });
     } catch (error: any) {
       return next(new AppError(error.message || "Internal server error", 500));
@@ -232,7 +256,9 @@ export const enrollCourse = CatchAsyncError(
         return next(new AppError("User not found", 404));
       }
 
-      if (user.courses.some((c: any) => String(c.courseId) === String(courseId))) {
+      if (
+        user.courses.some((c: any) => String(c.courseId) === String(courseId))
+      ) {
         return res.status(400).json({
           success: false,
           message: "You have already purchased this course",
